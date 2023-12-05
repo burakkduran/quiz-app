@@ -22,6 +22,7 @@ const QuestionCard = ({
     if (count === amount - 1) {
       setIsAnswered(true);
     }
+    
   };
 
   useEffect(() => {
@@ -32,7 +33,6 @@ const QuestionCard = ({
       setcount(count + 1);
       setTimer(30);
     }
-    if (count === amount - 1) setIsAnswered(true);
 
     return () => clearInterval(interval);
   }, [timer]);
