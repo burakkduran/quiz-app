@@ -35,7 +35,7 @@ const QuestionCard = ({
     }
 
     return () => clearInterval(interval);
-  }, [timer]);
+  }, [timer, count, setcount]);
 
   return (
     <div className="mb-32 flex flex-col items-center">

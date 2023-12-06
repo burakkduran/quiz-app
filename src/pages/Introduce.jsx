@@ -17,7 +17,7 @@ const Introduce = () => {
 
   return (
     <>
-      <div className=" bg-gradient-to-t from-violet-200 to-violet-400 h-screen flex flex-col items-center">
+      <div className=" bg-gradient-to-t from-violet-200 to-violet-400 min-h-screen flex flex-col items-center py-16">
         <img
           src={Logo}
           className="w-56 h-56w-56 sm:w-96 sm:h-96"
