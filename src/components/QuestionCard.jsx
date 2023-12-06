@@ -18,10 +18,10 @@ const QuestionCard = ({
       setScore(score + 100);
     }
     setcount(count + 1);
-    setTimer(30);
     if (count === amount - 1) {
       setIsAnswered(true);
     }
+    setTimer(30);
   };
 
   useEffect(() => {
@@ -30,11 +30,13 @@ const QuestionCard = ({
     }, 1000);
     if (timer === 0) {
       setcount(count + 1);
+      if (count === amount - 1) {
+        setIsAnswered(true);
+      }
       setTimer(30);
     }
-
     return () => clearInterval(interval);
-  }, [timer, count, setcount]);
+  }, [timer, count, setcount, amount , setIsAnswered]);
 
   return (
     <div className="container flex flex-col items-center justify-center ">
