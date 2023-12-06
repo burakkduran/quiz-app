@@ -12,7 +12,7 @@ const Quiz = () => {
   const [questionData, setQuestionData] = useState([]);
   const [score, setScore] = useState(0);
   const [count, setCount] = useState(0);
-  const [isAnswered, setIsAnswered] = useState(false);
+  const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Quiz = () => {
       {
         loading ? (
           <div className="text-white font-bold text-4xl">Loading...</div>
-        ) : isAnswered ? (
+        ) : modal ? (
           <Results score={score} />
         ) : (
           <QuestionCard
@@ -45,8 +45,8 @@ const Quiz = () => {
             count={count}
             setcount={setCount}
             amount={amount}
-            isAnswered={isAnswered}
-            setIsAnswered={setIsAnswered}
+            modal={modal}
+            setModal={setModal}
           />
         )
         

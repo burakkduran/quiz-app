@@ -9,19 +9,47 @@ const QuestionCard = ({
   count,
   setcount,
   amount,
-  setIsAnswered,
+  setModal,
 }) => {
   const [timer, setTimer] = useState(30);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const showNextButton = isAnswered ? "block" : "hidden";
 
   const approvedChoice = (e) => {
     if (questionData[count]?.correct_answer === e.target.value) {
       setScore(score + 100);
+      e.target.classList.add("animate-bounce", "bg-green-500");
+    } else {
+      e.target.classList.add("bg-red-500", "animate-pulse");
+      const buttons = document.querySelectorAll("button");
+      buttons.forEach((button) => {
+        if (button.value === questionData[count]?.correct_answer) {
+          button.classList.add("animate-bounce", "bg-green-500");
+        }
+      });
     }
+
+    setIsAnswered(true);
+  };
+
+  const nextQuestion = () => {
+    setIsAnswered(false);
+
     setcount(count + 1);
     if (count === amount - 1) {
-      setIsAnswered(true);
+      setModal(true);
     }
     setTimer(30);
+
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+      button.classList.remove(
+        "animate-bounce",
+        "animate-pulse",
+        "bg-green-500",
+        "bg-red-500"
+      );
+    });
   };
 
   useEffect(() => {
@@ -31,12 +59,12 @@ const QuestionCard = ({
     if (timer === 0) {
       setcount(count + 1);
       if (count === amount - 1) {
-        setIsAnswered(true);
+        setModal(true);
       }
       setTimer(30);
     }
     return () => clearInterval(interval);
-  }, [timer, count, setcount, amount , setIsAnswered]);
+  }, [timer, count, setcount, amount, setModal]);
 
   return (
     <div className="container flex flex-col items-center justify-center ">
@@ -44,10 +72,11 @@ const QuestionCard = ({
         <div className="bg-violet-950 w-12 h-12 rounded-full text-white text-lg flex items-center justify-center flex-shrink-0">
           {timer}
         </div>
-        <div className="text-white text-2xl">
-          <span className="text-slate-900">Category:</span>{" "}
+        <div className="text-white text-2xl grow">
+          <span className="text-slate-900 ">Category:</span>{" "}
           {questionData[count]?.category}
         </div>
+        <div className="text-2xl">Score: {score}</div>
       </div>
 
       <div className="flex items-center text-2xl gap-4 border-b border-t border-r pr-3 px-3 rounded-br-xl rounded-tr-xl border-l-2 border-l-black border-violet-500 mb-12 w-3/4 h-full sm:h-24 md:h-16">
@@ -65,10 +94,21 @@ const QuestionCard = ({
             key={i}
             value={answer}
             onClick={approvedChoice}
+            {...(isAnswered && { disabled: true })}
           >
             {answer}
           </button>
         ))}
+      </div>
+      <div className={`mt-8 h-8` }>
+        <button
+          className={
+            `bg-yellow-400 text-xl hover:bg-violet-200 hover:text-yellow-800 transition duration-200 hover:border hover:border-violet-800 text-black hover:text-black w-64 py-2 border border-transparent rounded-xl ${showNextButton}` 
+          }
+          onClick={nextQuestion}
+        >
+          Next Question
+        </button>
       </div>
     </div>
   );
