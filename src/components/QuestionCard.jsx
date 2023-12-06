@@ -78,7 +78,7 @@ const QuestionCard = ({
             <span className="text-violet-700 ">Category:</span>{" "}
             {questionData[count]?.category}
           </div>
-          <div className="text-2xl">Score: {score}</div>
+          <div className="text-2xl text-white">Score: <span className="text-violet-400">{score}</span></div>
         </div>
 
         <div className="flex items-center text-2xl text-white gap-4 border-b border-t border-r pr-3 px-3 rounded-br-xl rounded-tr-xl border-l-2 border-l-white border-violet-500 mb-12 w-3/4 h-full sm:h-24 md:h-16 ">
