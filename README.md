@@ -34,4 +34,24 @@ Throughout the development of this project, several key lessons were learned and
 
 ![QuizApp](/src/images/Screenshot3.png)
 
+## Installation
+
+1. Clone the repository to your local machine using the following command:
+
+```bash
+git clone
+```
+
+2. Navigate to the project directory and install the dependencies:
+
+```bash
+npm install
+```
+
+3. Run the app in development mode:
+
+```bash
+npm run dev
+```
+
 Feel free to explore the codebase and provide feedback. Thank you for checking out my project!
