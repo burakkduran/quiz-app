@@ -13,9 +13,11 @@ const QuestionCard = ({
 }) => {
   const [timer, setTimer] = useState(30);
   const [isAnswered, setIsAnswered] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
   const showNextButton = isAnswered ? "block" : "hidden";
 
   const approvedChoice = (e) => {
+    clearInterval(intervalId);
     if (questionData[count]?.correct_answer === e.target.value) {
       setScore(score + 100);
       e.target.classList.add("animate-bounce", "bg-green-500");
@@ -41,6 +43,7 @@ const QuestionCard = ({
       setModal(true);
     }
     setTimer(30);
+    clearInterval(intervalId);
 
     const buttons = document.querySelectorAll("button");
     buttons.forEach((button) => {
@@ -54,18 +57,23 @@ const QuestionCard = ({
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer(timer - 1);
+    const id = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 0) {
+          clearInterval(id);
+          setcount(count + 1);
+          if (count === amount - 1) {
+            setModal(true);
+          }
+          return 30;
+        }
+        return prevTimer - 1;
+      });
     }, 1000);
-    if (timer === 0) {
-      setcount(count + 1);
-      if (count === amount - 1) {
-        setModal(true);
-      }
-      setTimer(30);
-    }
-    return () => clearInterval(interval);
-  }, [timer, count, setcount, amount, setModal]);
+    setIntervalId(id);
+
+    return () => clearInterval(id);
+  }, [count, setcount, amount, setModal]);
 
   return (
     <div className="container flex flex-col items-center justify-center ">
@@ -78,7 +86,9 @@ const QuestionCard = ({
             <span className="text-violet-700 ">Category:</span>{" "}
             {questionData[count]?.category}
           </div>
-          <div className="text-2xl text-white">Score: <span className="text-violet-400">{score}</span></div>
+          <div className="text-2xl text-white">
+            Score: <span className="text-violet-400">{score}</span>
+          </div>
         </div>
 
         <div className="flex items-center text-2xl text-white gap-4 border-b border-t border-r pr-3 px-3 rounded-br-xl rounded-tr-xl border-l-2 border-l-white border-violet-500 mb-12 w-3/4 h-full sm:h-24 md:h-16 ">
